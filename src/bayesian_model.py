@@ -3,18 +3,18 @@ import numpy as np
 
 
 
-def build_change_point_model(prices):
+def build_change_point_model(series):
 
     try:
 
-        if len(prices)==0:
+        if len(series)==0:
 
             raise ValueError(
                 "Empty price series"
             )
 
 
-        n=len(prices)
+        n=len(series)
 
         index=np.arange(n)
 
@@ -31,21 +31,21 @@ def build_change_point_model(prices):
 
             mu1 = pm.Normal(
                 "mu1",
-                mu=np.mean(prices),
-                sigma=np.std(prices)*2
+                mu=np.mean(series),
+                sigma=np.std(series)*2
             )
 
 
             mu2 = pm.Normal(
                 "mu2",
-                mu=np.mean(prices),
-                sigma=np.std(prices)*2
+                mu=np.mean(series),
+                sigma=np.std(series)*2
             )
 
 
             sigma = pm.HalfNormal(
                 "sigma",
-                sigma=np.std(prices)
+                sigma=np.std(series)
             )
 
 
@@ -60,7 +60,7 @@ def build_change_point_model(prices):
                 "price",
                 mu=mean,
                 sigma=sigma,
-                observed=prices
+                observed=series
             )
 
 
