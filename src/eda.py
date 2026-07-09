@@ -1,3 +1,5 @@
+from statsmodels.tsa.stattools import adfuller
+
 def dataset_overview(df):
     """
     Return basic dataset information.
@@ -52,3 +54,20 @@ def price_range(df):
 
 
     return result
+
+
+def adf_test(series, name):
+    result = adfuller(series.dropna())
+    print(f'\n--- Augmented Dickey-Fuller Test for {name} ---')
+    print(f'ADF Statistic: {result[0]:.4f}')
+    print(f'P-value: {result[1]:.4f}')
+    print('Critical Values:')
+    for key, value in result[4].items():
+        print(f'    {key}: {value:.4f}')
+
+    if result[1] <= 0.05:
+        print('Result: Reject H0 (Series is stationary)')
+    else:
+        print('Result: Fail to reject H0 (Series is non-stationary)')
+
+  
