@@ -1,0 +1,16 @@
+Date,Event_Name,Category,Description,Expected_Impact
+8/2/1990,Iraq Invades Kuwait,War,Iraq's invasion of Kuwait disrupted oil supplies and triggered the Gulf War.,Strong price increase
+1/17/1991,Operation Desert Storm,War,Coalition forces launched military operations to liberate Kuwait.,High market volatility
+7/2/1997,Asian Financial Crisis,Economic Crisis,"Financial crisis reduced oil demand across Asia, causing prices to decline.",Price decrease
+12/16/1998,Operation Desert Fox,War,U.S. and U.K. airstrikes against Iraq increased geopolitical uncertainty.,Temporary price increase
+9/11/2001,September 11 Terrorist Attacks,Political,Terrorist attacks in the United States created uncertainty in global financial and energy markets.,Short-term volatility
+3/20/2003,Iraq War Begins,War,U.S.-led invasion of Iraq raised concerns about oil supply disruptions.,Price increase
+9/15/2008,Global Financial Crisis,Economic Crisis,Collapse of Lehman Brothers triggered a global recession and reduced oil demand.,Sharp price decline
+12/17/2010,Arab Spring Begins,Political,Political unrest across the Middle East and North Africa affected oil-producing countries.,Increased volatility
+2/15/2011,Libyan Civil War,War,Conflict in Libya disrupted oil production and exports.,Price increase
+11/27/2014,OPEC Maintains Production,OPEC Decision,OPEC decided not to cut production despite oversupply in the market.,Significant price decline
+11/30/2016,OPEC Production Cut Agreement,OPEC Decision,OPEC and partner countries agreed to reduce oil production.,Price recovery
+5/8/2018,U.S. Withdraws from Iran Nuclear Deal,Sanctions,Reimposed sanctions on Iran reduced expected global oil supply.,Price increase
+3/11/2020,COVID-19 Declared Pandemic,Pandemic,Global lockdowns sharply reduced transportation and industrial fuel demand.,Severe price decline
+4/12/2020,Historic OPEC+ Production Cut,OPEC Decision,OPEC+ agreed to record production cuts to stabilize the oil market.,Price stabilization and recovery
+2/24/2022,Russia Invades Ukraine,War,The conflict disrupted global energy markets and increased supply uncertainty.,Sharp price increase

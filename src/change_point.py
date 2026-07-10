@@ -15,7 +15,7 @@ def extract_change_point(trace):
 
 
         tau = int(
-            np.mean(tau_samples)
+            np.median(tau_samples)
         )
 
 
