@@ -22,6 +22,31 @@ def remove_duplicates(df):
     return df
 
 
+def prepare_change_point_series(values, transform="log"):
+    """
+    Transform a positive price series into a stable representation for
+    change-point modeling.
+    """
+
+    values = np.asarray(values, dtype=float)
+
+    if values.ndim != 1:
+        values = values.reshape(-1)
+
+    if len(values) < 2:
+        raise ValueError("Need at least two observations")
+
+    if (values <= 0).any():
+        raise ValueError("Price series must contain positive values")
+
+    if transform == "log":
+        return np.log(values)
+
+    if transform == "log_return":
+        return np.diff(np.log(values))
+
+    raise ValueError(f"Unsupported transform: {transform}")
+
 
 def create_price_features(df):
 
