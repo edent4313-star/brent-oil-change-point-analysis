@@ -132,6 +132,27 @@ def plot_change_point(
         raise RuntimeError(
             f"Change point plot failed: {e}"
         )
+def plot_volatility(df):
+    
+    try:    
+        plt.figure(figsize=(14, 7))
+
+        plt.plot(df['Date'], df['Log_Return'], label='Daily Log Returns', alpha=0.7)
+        plt.plot(df['Date'], df['Rolling_Volatility'], label='Rolling Standard Deviation (30-day)', color='orange')
+
+        plt.title('Daily Log Returns and Rolling Standard Deviation of Brent Oil Prices')
+        plt.xlabel('Date')
+        plt.ylabel('Value')
+        plt.legend()
+        plt.grid(True)
+        plt.tight_layout()
+        plt.show()
+
+    except Exception as e:
+
+        raise RuntimeError(
+            f"Volatility plot failed: {e}"
+        )    
     
 def plot_Log_Return_Analysis(df):
     
