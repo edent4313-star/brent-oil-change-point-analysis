@@ -50,3 +50,14 @@ def test_prepare_change_point_series_uses_log_scale():
     result = prepare_change_point_series(values)
 
     np.testing.assert_allclose(result, np.log(values))
+
+
+def test_prepare_change_point_series_supports_negative_values():
+
+    values = np.array([-5, 10, 20])
+
+    result = prepare_change_point_series(values)
+
+    assert result.shape == values.shape
+    assert np.isfinite(result).all()
+    assert np.any(result < 0)

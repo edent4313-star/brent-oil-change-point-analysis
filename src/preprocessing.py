@@ -22,10 +22,29 @@ def remove_duplicates(df):
     return df
 
 
+def _safe_log(values):
+    """
+    Apply a log-like transform that preserves the sign of negative values.
+    """
+
+    values = np.asarray(values, dtype=float)
+    transformed = np.empty_like(values, dtype=float)
+
+    positive_mask = values > 0
+    negative_mask = values < 0
+    zero_mask = ~(positive_mask | negative_mask)
+
+    transformed[positive_mask] = np.log(values[positive_mask])
+    transformed[negative_mask] = -np.log(np.abs(values[negative_mask]) + 1)
+    transformed[zero_mask] = 0.0
+
+    return transformed
+
+
 def prepare_change_point_series(values, transform="log"):
     """
-    Transform a positive price series into a stable representation for
-    change-point modeling.
+    Transform a numeric series for change-point modeling while preserving
+    negative values instead of dropping them.
     """
 
     values = np.asarray(values, dtype=float)
@@ -33,17 +52,17 @@ def prepare_change_point_series(values, transform="log"):
     if values.ndim != 1:
         values = values.reshape(-1)
 
+    values = values[np.isfinite(values)]
+
     if len(values) < 2:
         raise ValueError("Need at least two observations")
 
-    if (values <= 0).any():
-        raise ValueError("Price series must contain positive values")
-
     if transform == "log":
-        return np.log(values)
+        return _safe_log(values)
 
     if transform == "log_return":
-        return np.diff(np.log(values))
+        transformed = prepare_change_point_series(values, transform="log")
+        return np.diff(transformed)
 
     raise ValueError(f"Unsupported transform: {transform}")
 
@@ -67,14 +86,7 @@ def create_price_features(df):
         df=df.copy()
 
 
-        if (df["Price"] <= 0).any():
-
-            raise ValueError(
-                "Price contains zero or negative values"
-            )
-
-
-        df["Log_Price"] = np.log(
+        df["Log_Price"] = _safe_log(
             df["Price"]
         )
 
@@ -90,6 +102,14 @@ def create_price_features(df):
             .diff()
         )
 
+
+        df["Rolling_Mean_30"] = (
+            df["Log_Return"]
+            .rolling(
+                window=30
+            )
+            .mean()
+        )
 
         df["Rolling_Volatility"] = (
             df["Log_Return"]

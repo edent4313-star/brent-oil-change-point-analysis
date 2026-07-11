@@ -56,8 +56,8 @@ def price_range(df):
     return result
 
 
-def adf_test(series, name):
-    result = adfuller(series.dropna())
+def adf_test(Log_Return, name):
+    result = adfuller(Log_Return.dropna())
     print(f'\n--- Augmented Dickey-Fuller Test for {name} ---')
     print(f'ADF Statistic: {result[0]:.4f}')
     print(f'P-value: {result[1]:.4f}')
