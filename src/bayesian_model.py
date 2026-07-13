@@ -77,29 +77,34 @@ def build_change_point_model(Log_Return):
         )
 
 
-def build_change_point_model_fast(prices):
-    series = prepare_change_point_series(prices)
+
+def build_change_point_model_fast(series):
+    # Ensure we are using the series passed in
     n = len(series)
     index = np.arange(n)
+    
+    # Calculate starting guesses based ONLY on the input series
+    data_mean = np.mean(series)
+    data_std = np.std(series)
 
     with pm.Model() as model:
-        # 1. We use a continuous Uniform for tau (this allows the fast NUTS sampler)
-        # We scale it between 0 and 1 for stability, then multiply by n
+        # 1. Latent Tau (Time)
         tau_latent = pm.Uniform("tau_latent", 0, 1)
         tau = pm.Deterministic("tau", tau_latent * n)
 
-        # 2. Priors (keep these the same)
-        mu1 = pm.Normal("mu1", mu=np.mean(series), sigma=np.std(series)*2)
-        mu2 = pm.Normal("mu2", mu=np.mean(series), sigma=np.std(series)*2)
-        sigma = pm.HalfNormal("sigma", sigma=np.std(series))
+        # 2. Means (Before and After)
+        # We use the mean of the [0,1] data as the starting point
+        mu1 = pm.Normal("mu1", mu=data_mean, sigma=data_std * 2)
+        mu2 = pm.Normal("mu2", mu=data_mean, sigma=data_std * 2)
 
-        # 3. The "Fast Switch" (Sigmoid)
-        # Instead of index < tau, we use a steep curve. 
-        # This allows the sampler to calculate "gradients" and move 100x faster.
+        # 3. Standard Deviation (Noise)
+        sigma = pm.HalfNormal("sigma", sigma=data_std)
+
+        # 4. The Sigmoid Switch
         weight = pm.math.sigmoid((index - tau) * 10) 
         mean = pm.Deterministic("mean", (1 - weight) * mu1 + weight * mu2)
 
-        # 4. Likelihood
+        # 5. Observed Data
         pm.Normal("obs", mu=mean, sigma=sigma, observed=series)
 
     return model
@@ -132,3 +137,4 @@ def run_sampler(
         raise RuntimeError(
             f"MCMC sampling failed: {e}"
         )
+    
