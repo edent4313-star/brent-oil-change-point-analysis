@@ -109,22 +109,21 @@ Workflow:
 - Change point identification
 - Impact quantification
 
-Example result:
 
 - Change Point:
-  - 2004-02-29
+  - 2005-05-28
 
 Average price before change:
 
-- \$20.20
+- \$$21.27
 
 Average price after change:
 
-- \$73.73
+- \$75.66
 
 Estimated increase:
 
-- 265.06%
+- 255.62%
 
 ---
 
