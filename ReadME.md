@@ -243,3 +243,21 @@ pytest
 
 ---
 
+## Dashboard Screenshots
+
+### Dashboard Home
+
+![Dashboard](screenshots/dashboard_home.png)
+
+---
+
+### Volatility Chart
+
+![Volatility](screenshots/volatility_chart.png)
+
+---
+
+### Event Table
+
+![Events](screenshots/events_table.png)
+
